@@ -35,18 +35,27 @@ def create_model(rbf_neurons=100):
 
     return model
 
-
 train_ds, test_ds = load_data()
 model = create_model()
+#model = create_model(rbf_neurons=200)
+#model = create_model(rbf_neurons=400)
 
 optm_obj=Adam()
 loss_obj = CategoricalCrossentropy()
 acc_metric = tf.keras.metrics.CategoricalAccuracy( name='accuracy_metric' )
 model.compile( loss=loss_obj, optimizer=optm_obj, metrics=[acc_metric] )
 
+'''
+    Epoch counts in comments here were selected by training a model
+    with 2000 epochs, a validation split of 20%, and early stopping
+    as shown in the last two lines of comments here.
+'''
 model.fit( train_ds['x'], train_ds['y'],
-        batch_size=64, epochs=2000, validation_split=0.2,
-        callbacks=[tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)] )
+        batch_size=64, epochs=20 ) # for rbf_neurons=100 (default)
+        #batch_size=64, epochs=15 ) # for rbf_neurons=200
+        #batch_size=64, epochs=18 ) # for rbf_neurons=400
+        #batch_size=64, epochs=2000, validation_split=0.2,
+        #callbacks=[tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)] )
 
 acc_metric.reset_states()
 y_pred = model.predict( train_ds['x'] )

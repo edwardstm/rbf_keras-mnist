@@ -2,8 +2,8 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
-from tensorflow.keras.losses import CategoricalCrossentropy, MeanSquaredError
-from tensorflow.keras.optimizers import SGD, Adam, RMSprop
+from tensorflow.keras.losses import CategoricalCrossentropy
+from tensorflow.keras.optimizers import Adam
 from rbf_keras.rbflayer import RBFLayer, InitCentersRandom
 
 def load_data():
@@ -37,7 +37,7 @@ def create_model(rbf_neurons=100):
 
 
 train_ds, test_ds = load_data()
-model = create_model( rbf_neurons=100 )
+model = create_model()
 
 optm_obj=Adam()
 loss_obj = CategoricalCrossentropy()
